@@ -15,7 +15,7 @@ navbar:
     - text: "Map"
       href: map.html
     - text: 'Data'
-      href: data_source.html
+      href: https://www.kaggle.com/jackywang529/michelin-restaurants
     - text: 'About'
       href: Proposal.html
     - text: 'Report'
@@ -23,7 +23,7 @@ navbar:
     - icon: fa-envelope fa-lg
       href: mailto:<zc2555@cumc.columbia.edu>
     - icon: fa-github fa-lg
-      href: https://github.com/zl2974/hot_coffee
+      href: https://github.com/Clairexiao1/P8105_Final_Project-
 output:
   html_document:
     theme: cosmo
