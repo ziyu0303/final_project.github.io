@@ -17,22 +17,34 @@ Michelin stars are what every chef is looking for! Even the most renowned chefs 
 
 <img src="Michelin.png" style="width:75%">
 ---------------------------------------
-
+---------------------------------------
 
 
 # Contributors
 
-Ziyu Chen 
-[Personal Website](https://ziyu0303.github.io)
+* Ziyu Chen:  
 
-Huijun Xiao
-[Personal Website](https://www.linkedin.com/in/huijun-xiao-290821159/)
+  Email: zc2555@cumc.columbia.edu
 
-Tina Zhao
-[Personal Website](https://nz2333.github.io/p8105_hw4_nz2333.github.io/)
+  [Personal Website](https://ziyu0303.github.io)
 
-Xinyn Zhou
-[Personal Website](https://sherry1953.github.io/index.html)
+* Huijun Xiao:
+
+  Email: hx23065@cumc.columbia.edu
+
+  [Personal Website](https://www.linkedin.com/in/huijun-xiao-290821159/)
+
+* Tina Zhao:
+
+  Email: nz23335@cumc.columbia.edu
+
+  [Personal Website](https://nz2333.github.io/p8105_hw4_nz2333.github.io/)
+
+* Xinyn Zhou: 
+
+  Email: xz29815@cumc.columbia.edu
+
+  [Personal Website](https://sherry1953.github.io/index.html)
 
 
 ----------------------------------------------------------------------------------------
