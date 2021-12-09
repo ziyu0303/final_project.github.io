@@ -13,7 +13,7 @@ navbar:
         - text: 'Cuisine Type and Restaurant Price'
           href: https://ziyu0303.github.io/ds1_final.github.io/
     - text: "Interactive Map"
-      href: map.html
+      href: P8105_final_mapping-1.html
     - text: 'Report'
       href: P8105_Project_Report.html
     - icon: fa-envelope fa-lg

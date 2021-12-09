@@ -1,0 +1,121 @@
+---
+title: "Shiny Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(patchwork)
+library(kableExtra)
+library(ggplot2)
+library(plotly)
+library(gganimate)
+library(gifski)
+library(png)
+library(leaflet)
+library(rvest)
+library(shiny)
+library(RColorBrewer)
+library(flexdashboard)
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+
+#Geo-distribution data import 
+michelin_df <-
+  read_csv("./data/michelin_data.csv")
+
+michelin_2020 <-
+  read_csv("./data/michelin_2020.csv")%>%
+  mutate(continent = "Europe") %>%
+  relocate(name,year,city,continent,latitude,longitude)
+
+michelin_map <-
+  michelin_df %>%
+  select(name, year, city, continent, latitude, longitude,star) %>%
+  rbind(michelin_2020) %>%
+  mutate(
+    star = fct_relevel(star,"three","two","one")) %>%
+  drop_na(longitude,latitude,city)
+
+```
+
+Global distribution (2018-2020)
+=======================================================================
+
+Options {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+star_bar <-
+  michelin_map %>%
+  distinct(star) %>%
+  pull()
+
+continent_bar <-
+  michelin_map %>%
+  distinct(continent) %>%
+  pull()
+
+#year
+sliderInput(
+  "Year_Range",
+  h3("Year"),
+  2018,2020,
+  value = c(2018,2019),
+  sep = "")
+
+#star side bar
+selectInput(
+  "star_side",
+  h3("Michelin Star Level"),
+  choices = star_bar,
+  selected = "one")
+
+#continent side bar
+selectInput(
+  "continent_side",
+  h3("Continent"),
+  choices = continent_bar,
+  selected = "Europe")
+```
+
+Column {data-width=800}
+-----------------------------------------------------------------------
+
+### Newly released Michelin restaurants global distribution (2018-2020)
+
+```{r,eval = T}
+color_pat <-
+  colorFactor(
+    palette = "viridis",
+    domain = michelin_map$star)
+
+renderLeaflet({
+  michelin_map %>%
+    mutate(
+      pop_info = str_c("Name: ", name,
+                     "<br>City: ", city,
+                     "<br>Star: ", star)) %>%    
+    filter(
+      star == input[["star_side"]],
+      continent == input[["continent_side"]],
+      year %in% as.numeric(input[["Year_Range"]][1]):as.numeric(input[["Year_Range"]][2])
+      ) %>%
+    leaflet() %>%
+    addTiles() %>% 
+    addCircleMarkers(~longitude, ~latitude,
+                   color = ~color_pat(star),
+                   radius = 2,
+                   popup = ~pop_info)
+})
+```
+
