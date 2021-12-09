@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project Report</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Overview</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="data_exploration.html">Data Exploration</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Data Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://nz2333.github.io/cuisinetypeandstar.github.io/">Cuisine Type and Michelin Stars</a>
+    </li>
+    <li>
+      <a href="https://ziyu0303.github.io/ds1_final.github.io/">Cuisine Type and Restaurant Price</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="map.html">Interactive Map</a>
+</li>
+<li>
+  <a href="P8105_Project_Report.html">Report</a>
+</li>
+<li>
+  <a href="mailto:&lt;zc2555@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/Clairexiao1/P8105_Final_Project-">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Project Report</h1>
+
+</div>
+
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p><br>Michelin stars are what every chef is looking for! Even the most renowned chefs will be worried about losing stars, and even cry after losing one or two stars. However, the majority of chefs are devoting their lives just for one star. It is obvious that Michelin stars are important for chefs, but the controversies around this guide always exist.</p>
+<p> </p>
+<div id="related-work" class="section level3">
+<h3><em>Related Work</em></h3>
+<p><br>1. “Are Michelin-starred Restaurants Predictable?” <a href="https://medium.com/@grantcho/are-michelin-starred-restaurants-predictable-8398c041f4ed">Link.</a></p>
+<p> </p>
+</div>
+</div>
+<div id="questions" class="section level2">
+<h2>Questions</h2>
+<p><br>In this project, we would like to explore the following questions:</p>
+<ol style="list-style-type: decimal">
+<li>To what extent can Michelin 3-Star restaurants keep their stars?<br />
+</li>
+<li>To what extent does the Michelin Guide overlap with other famous food rankings like the world’s 50 best restaurants?<br />
+</li>
+<li>Does the Michelin Guide have some preferences for some cuisines?<br />
+</li>
+<li>How Michelin restaurants change around the world by location?</li>
+</ol>
+<p> </p>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<div id="data-sources" class="section level3">
+<h3><em>Data Sources</em></h3>
+<p><br> <strong>1. <a href="https://www.kaggle.com/jackywang529/michelin-restaurants">Michelin Restaurant Ratings Globally</a></strong></p>
+<p><br>Michelin Restaurant Ratings Globally is the main data source of our project, which contains three separate datasets for one-star Michelin restaurants, two-stars Michelin restaurants and three-stars Michelin restaurants. All these restaurants collected from 2018-2019 <a href="https://guide.michelin.com/us/en">Michelin Guide</a>. There are 695 restaurants in total with their information of restaurant name, released year, location data, cuisine type, price and official URLs.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>restaurant name</td>
+</tr>
+<tr class="even">
+<td><code>year</code></td>
+<td>released year from Michelin Guide</td>
+</tr>
+<tr class="odd">
+<td><code>latitude</code>, <code>longitude</code></td>
+<td>restaurant coordinates</td>
+</tr>
+<tr class="even">
+<td><code>city</code></td>
+<td>cities restaurants locate in</td>
+</tr>
+<tr class="odd">
+<td><code>region</code></td>
+<td>regions restaurants locate in</td>
+</tr>
+<tr class="even">
+<td><code>zipCode</code></td>
+<td>zip codes of restaurants</td>
+</tr>
+<tr class="odd">
+<td><code>cuisine</code></td>
+<td>cuisine types of restaurants</td>
+</tr>
+<tr class="even">
+<td><code>price</code></td>
+<td>restaurant price levels</td>
+</tr>
+<tr class="odd">
+<td><code>url</code></td>
+<td>restaurant official website links</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p><strong>2. <a href="https://data.public.lu/en/datasets/michelin-restaurants-in-2020/">Starred Restaurants of Michelin Guide 2020</a></strong></p>
+<p><br>Starred Restaurants of Michelin Guide 2020 contains 2020 newly released one-star, two-stars and three-stars Michelin restaurants collected from 2020 <a href="https://guide.michelin.com/us/en">Michelin Guide</a>. There are 86 restaurants in total with their information of restaurant name, released year, location(i.e., latitude, longitude, city and region), star level and official URLs. Since this dataset does not contain enough data, such as price and cuisine, it was only a supplementary data source for mapping and geographic comparison.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>latitude</code>,<code>longitude</code>, <code>altitude</code></td>
+<td>restaurant coordinates</td>
+</tr>
+<tr class="even">
+<td><code>geometry</code></td>
+<td>point</td>
+</tr>
+<tr class="odd">
+<td><code>OBJECTID</code></td>
+<td>ID</td>
+</tr>
+<tr class="even">
+<td><code>name</code></td>
+<td>restaurant name</td>
+</tr>
+<tr class="odd">
+<td><code>region</code></td>
+<td>regions restaurants locate in</td>
+</tr>
+<tr class="even">
+<td><code>city</code></td>
+<td>cities restaurants locate in</td>
+</tr>
+<tr class="odd">
+<td><code>stars</code></td>
+<td>restaurant star levels</td>
+</tr>
+<tr class="even">
+<td><code>link</code></td>
+<td>restaurant official website links</td>
+</tr>
+<tr class="odd">
+<td><code>description</code></td>
+<td>restaurants description</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+</div>
+<div id="data-cleaning" class="section level3">
+<h3><em>Data Cleaning</em></h3>
+<p><br>For general data cleaning, all three Michelin restaurants datasets were imported from <a href="https://www.kaggle.com/jackywang529/michelin-restaurants">Michelin Restaurant Ratings Globally</a> in the format of csv. In each dataset, a new column <code>star</code> was added for indicating the star level of the restaurant. For example, in one-star Michelin restaurants dataset, <code>star</code> was set to <code>one</code> for all restaurants. The final 2018-2019 Michelin dataset was combined from one-star, two-stars and three-stars Michelin restaurant datasets by <code>rbind</code>. The variables were then renamed, recoded and selected based on if they were intuitive and if they were needed for analyses. For example, <code>region</code> was recoded to <code>country</code>, and new variable <code>continent</code> was created for later continental comparison analysis.</p>
+<pre class="r"><code>one_star &lt;-
+  read_csv(&quot;./data/one-star-michelin-restaurants.csv&quot;) %&gt;%
+  mutate(star = &quot;one&quot;)
+
+two_star &lt;-
+  read_csv(&quot;./data/two-stars-michelin-restaurants.csv&quot;) %&gt;%
+  mutate(star = &quot;two&quot;)
+
+three_star &lt;-
+  read_csv(&quot;./data/three-stars-michelin-restaurants.csv&quot;) %&gt;%
+  mutate(star = &quot;three&quot;)
+
+michelin_df &lt;-
+  rbind(one_star,two_star,three_star) %&gt;%
+  janitor::clean_names() %&gt;%
+  select(-zip_code, -url) %&gt;%
+  rename(country = region) %&gt;%
+  mutate(price = case_when(
+    price == &quot;$$$$$&quot; ~ &quot;5&quot;,
+    price == &quot;$$$$&quot; ~ &quot;4&quot;,
+    price == &quot;$$$&quot; ~ &quot;3&quot;,
+    price == &quot;$$&quot; ~ &quot;2&quot;,
+    price == &quot;$&quot; ~ &quot;1&quot;)) %&gt;%
+  mutate(country = case_when(
+    country == &quot;Austria&quot; ~ &quot;Austria&quot;,
+    country == &quot;California&quot; ~ &quot;USA&quot;,
+    country == &quot;Chicago&quot; ~ &quot;USA&quot;,
+    country == &quot;New York City&quot; ~ &quot;USA&quot;,
+    country == &quot;Washington DC&quot; ~ &quot;USA&quot;,
+    country == &quot;Croatia&quot; ~ &quot;Croatia&quot;,
+    country == &quot;Czech Republic&quot; ~ &quot;Czech Republic&quot;,
+    country == &quot;Denmark&quot; ~ &quot;Denmark&quot;,
+    country == &quot;Finland&quot; ~ &quot;Finland&quot;,
+    country == &quot;Hong Kong&quot; ~ &quot;China&quot;,
+    country == &quot;Macau&quot; ~ &quot;China&quot;,
+    country == &quot;Taipei&quot; ~ &quot;China&quot;,
+    country == &quot;Hungary&quot; ~ &quot;Hungary&quot;,
+    country == &quot;Norway&quot; ~ &quot;Norway&quot;,
+    country == &quot;Poland&quot; ~ &quot;Poland&quot;,
+    country == &quot;Ireland&quot; ~ &quot;Ireland&quot;,
+    country == &quot;Rio de Janeiro&quot; ~ &quot;Brazil&quot;,
+    country == &quot;Sao Paulo&quot; ~ &quot;Brazil&quot;,
+    country == &quot;South Korea&quot; ~ &quot;South Korea&quot;,
+    country == &quot;Sweden&quot; ~ &quot;Sweden&quot;,
+    country == &quot;Singapore&quot; ~ &quot;Singapore&quot;,
+    country == &quot;Thailand&quot; ~ &quot;Thailand&quot;,
+    country == &quot;United Kingdom&quot; ~ &quot;United Kingdom&quot;)) %&gt;%
+  mutate(country = ifelse(city == &quot;Athína&quot;, &quot;Greece&quot;, country)) %&gt;%
+  mutate(continent = case_when(
+    country == &quot;Austria&quot; ~ &quot;Europe&quot;,
+    country == &quot;USA&quot; ~ &quot;North America&quot;,
+    country == &quot;Croatia&quot; ~ &quot;Europe&quot;,
+    country == &quot;Czech Republic&quot; ~ &quot;Europe&quot;,
+    country == &quot;Denmark&quot; ~ &quot;Europe&quot;,
+    country == &quot;Finland&quot; ~ &quot;Europe&quot;,
+    country == &quot;China&quot; ~ &quot;Asia&quot;,
+    country == &quot;Hungary&quot; ~ &quot;Europe&quot;,
+    country == &quot;Norway&quot; ~ &quot;Europe&quot;,
+    country == &quot;Poland&quot; ~ &quot;Europe&quot;,
+    country == &quot;Ireland&quot; ~ &quot;Europe&quot;,
+    country == &quot;Brazil&quot; ~ &quot;South America&quot;,
+    country == &quot;South Korea&quot; ~ &quot;Asia&quot;,
+    country == &quot;Sweden&quot; ~ &quot;Europe&quot;,
+    country == &quot;Singapore&quot; ~ &quot;Asia&quot;,
+    country == &quot;Thailand&quot; ~ &quot;Asia&quot;,
+    country == &quot;United Kingdom&quot; ~ &quot;Europe&quot;,
+    country == &quot;Greece&quot; ~ &quot;Europe&quot;)) %&gt;%
+  relocate(name, year,city,country,continent)
+
+#write.csv(michelin_df,&quot;./data/michelin_data.csv&quot;, row.names = FALSE)</code></pre>
+<div id="mapping" class="section level4">
+<h4>Mapping</h4>
+<p><br>For mapping data, <a href="https://data.public.lu/en/datasets/michelin-restaurants-in-2020/">Starred Restaurants of Michelin Guide 2020</a> was cleaned in a similar way and imported in the format of csv as well. Only <code>name</code>, <code>city</code>,<code>stars</code>,<code>latitude</code> and <code>longtitude</code> were selected from original dataset. To combine 2020 and 2018-2019 Michelin restaurants datasets, <code>stars</code> was renamed to <code>star</code>, <code>year</code> = 2000 and <code>continent</code> = Europe was added to 2020 Michelin restaurants dataset for consistency. The geographic distribution of Michelin restaurants was planned to be classified based on Michelin stars. Therefore, <code>star</code> was set to the factor variable and defined the order of values using <code>fct_relevel</code>. Finally, since the main parts of generating map are latitude and longitude data, any restaurants with <code>latitude</code> and <code>longitude</code> = NA were dropped. No additional world map data files were needed, and only <code>Leaflet</code>, an open-source JavaScript library, was utilized for creating interactive web maps.</p>
+<pre class="r"><code>michelin_2020 &lt;-
+  read_csv(&quot;./data/michelin-restaurants-in-2020.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;%
+  select(-altitude,-geometry,-objectid,-region,-link,-description) %&gt;%
+  mutate(stars = case_when(
+    stars == &quot;3&quot; ~ &quot;three&quot;,
+    stars == &quot;2&quot; ~ &quot;two&quot;,
+    stars == &quot;1&quot; ~ &quot;one&quot;)) %&gt;%
+  rename(star = stars) %&gt;%
+  mutate(year = 2020) %&gt;%
+  mutate(continent = &quot;Europe&quot;) %&gt;%
+  relocate(name,year,city,continent,latitude,longitude)
+
+#write.csv(michelin_2020,&quot;./data/michelin_2020.csv&quot;, row.names = FALSE)
+
+michelin_map &lt;-
+  michelin_df %&gt;%
+  select(name, year, city, continent, latitude, longitude,star) %&gt;%
+  rbind(michelin_2020) %&gt;%
+  mutate(
+    star = fct_relevel(star,&quot;three&quot;,&quot;two&quot;,&quot;one&quot;)) </code></pre>
+<p> </p>
+</div>
+</div>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory Analysis</h2>
+<div id="newly-released-michelin-restaurants-global-distribution-2018-2020" class="section level3">
+<h3><em>Newly released Michelin restaurants global distribution (2018-2020)</em></h3>
+<p><br>The following map shows the geographic distribution of Michelin restaurants released by Michelin Guide from 2018 to 2020, with information on restaurant name, which city the restaurant locates in and its star level included in the label. This map was used to determine the geographic spread of Michelin restaurants from 2018 to 2020 by restaurant star level, and shows that most of Michelin restaurants are still located in Europe, although the final dataset we had did not include countries which had the highest numbers of Michelin-starred restaurants, such as France, Japan and Italy.</p>
+<pre class="r"><code>star_color &lt;-
+  colorFactor(&quot;plasma&quot;,michelin_map %&gt;% pull(star))
+
+michelin_map %&gt;%
+  drop_na(longitude,latitude,city) %&gt;%
+  mutate(
+    pop_info = str_c(&quot;Name: &quot;, name,
+                     &quot;&lt;br&gt;City: &quot;, city,
+                     &quot;&lt;br&gt;Star: &quot;, star)) %&gt;%
+  leaflet() %&gt;%
+  addProviderTiles(providers$CartoDB.Positron) %&gt;% 
+  addLegend(&quot;bottomright&quot;, pal = star_color,
+            values = ~ as.factor(star),
+            title = &quot;Michelin Star&quot;,
+            labFormat = labelFormat(big.mark = &quot;&quot;),
+            opacity = 1) %&gt;%
+  addCircleMarkers(~longitude, ~latitude,
+                   color = ~star_color(star),
+                   radius = 1,
+                   popup = ~pop_info)</code></pre>
+<div id="htmlwidget-812255996d956133f8a2" style="width:90%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-812255996d956133f8a2">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addLegend","args":[{"colors":["#0D0887","#CC4779","#F0F921"],"labels":["three","two","one"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"factor","title":"Michelin Star","extra":null,"layerId":null,"className":"info legend","group":null}]},{"method":"addCircleMarkers","args":[[47.34858,47.83787,47.80685,47.80001,48.216503,48.21272,48.20945,48.20923,48.204067,48.20513,48.18957,48.20209,37.39468,37.427853,37.42014,37.42897,37.25648,37.52114,37.565075,37.577522,37.72669,37.748924,37.755054,37.77077,37.761395,37.78194,37.779495,37.785633,37.78695,37.783062,37.793167,37.774914,37.785267,37.79349,37.79037,37.79371,37.795803,37.77672,37.793106,37.78371,37.783737,37.787857,37.78732,37.79592,37.79699,37.788334,37.80599,37.798435,37.78772,37.783035,37.974712,36.55406,38.29924,38.30351,38.40258,38.49199,38.49039,38.58894,38.60428,39.135876,34.15784,34.024952,34.01679,34.041683,34.067036,34.0683,34.028496,34.064346,34.033398,34.084255,34.08342,34.083443,34.06354,34.046883,34.044155,34.03311,34.104412,33.92145,33.69475,33.67759,32.939903,41.94483,41.96856,41.969555,41.863,41.967308,41.90888,41.898907,41.93721,41.884426,41.857853,41.886658,41.91363,41.88423,41.88394,41.9296,41.87597,41.89047,41.90062,45.08279,45.275867,45.811054,43.73603,42.641563,50.0919,50.09115,56.15788,56.15893,56.15415,56.12497,55.70901,55.56659,55.771236,55.81325,55.748226,55.693233,55.69188,55.67031,55.68768,55.68342,55.68034,55.6787,55.67799,55.67785,55.673004,55.66265,55.12417,55.00457,60.17236,60.16446,60.164806,60.16616,60.16556,60.157578,38.02318,37.937378,37.95818,22.379858,22.312672,22.32805,22.320219,22.318314,22.308014,22.3022,22.297325,22.280807,22.296984,22.293434,22.294943,22.296177,22.296112,22.30357,22.282295,22.295143,22.280058,22.28025,22.2787,22.276512,22.277693,22.26921,22.278013,22.276443,22.282213,22.277136,22.282587,22.284931,22.281048,22.28226,22.278313,22.284334,22.281038,22.280624,22.28008,22.27982,22.28005,22.285713,22.281662,22.280996,22.235146,47.50113,47.49953,47.500244,47.492603,47.48873,22.191442,22.189898,22.188028,22.190178,22.161234,22.149635,22.148178,22.145418,22.14918,22.140524,22.148754,63.43392,63.43391,58.972088,58.969936,59.91661,59.92355,59.90937,40.74327,40.742897,40.711903,40.743793,40.73538,40.732952,40.731716,40.738316,40.719616,40.72452,40.7321,40.727646,40.73233,40.727966,40.719162,40.73885,40.73778,40.74114,40.73417,40.733166,40.74325,40.74497,40.723915,40.721203,40.74497,40.73849,40.7414,40.75013,40.73595,40.72713,40.703613,40.72191,40.749973,40.73071,40.719917,40.744408,40.7266,40.72776,40.75234,40.760685,40.724194,40.74839,40.75108,40.75133,40.77439,40.677395,40.801243,40.77384,40.810448,40.710354,40.743492,40.70986,40.730057,40.68704,40.707584,52.244583,52.21708,53.27112,53.27384,53.03151,51.562588,51.48285,51.898167,53.354374,53.340042,53.33627,52.6559,53.30143,52.526096,51.94777,-22.96109,-22.95401,-22.95747,-22.96764,-22.96755,-23.56318,-23.56621,-23.567078,-23.565063,-23.58522,-23.58132,-23.634005,-23.59159,-23.5684,-23.60882,37.513004,37.592903,37.577705,37.57761,37.521046,37.52445,37.52252,37.57389,37.518963,37.522675,37.57045,37.5384,37.536415,37.54903,37.49816,37.49769,37.49417,37.55777,37.52212,1.3052,1.30969,1.304735,1.296564,1.291284,1.2959028,1.310767,1.295228,1.295452,1.293184,1.2899688,1.2853268,1.309123,1.302379,1.303244,1.3032448,1.285781,1.305105,1.3063719,1.305986,1.287212,1.304937,1.2874758,1.305821,1.315121,1.3043848,1.281301,1.28086,1.28248,1.280501,1.279368,1.279372,1.27826,1.2797709,57.70618,57.698406,57.69809,57.69688,57.69437,57.69745,59.34777,59.341286,59.33867,59.33674,59.329876,59.32935,59.2842,56.87892,55.59064,55.53376,25.118216,25.082657,25.039188,25.04429,25.062696,25.06625,25.043018,25.03618,25.03561,25.06171,25.034622,25.055832,25.036266,25.05429,25.023922,25.038046,25.042248,25.03799,13.926962,13.727946,13.740706,13.731805,13.728886,13.726389,13.754137,13.742978,13.744594,13.744069,13.723242,13.738216,13.735739,13.737806,13.756321,13.752614,13.724357,13.718885,13.721809,13.725005,13.558403,8.034298,38.905373,38.9235,38.910107,38.909992,38.906,38.907776,38.91584,38.906292,38.903503,38.903282,38.89416,38.909504,38.88064,57.51487,55.69474,54.595898,54.59891,56.27861,55.976967,55.97552,55.95298,55.95674,56.222126,54.46396,54.35013,54.20074,54.96758,53.225925,53.80933,54.13435,53.38183,53.83916,52.92405,52.54476,54.21205,53.19064,54.23101,53.798286,52.55568,53.8955,53.25055,53.68778,51.209476,51.84534,50.541534,52.46925,52.48268,52.47964,50.59206,52.44588,52.4259,52.73295,51.759697,51.434387,50.1889,52.350315,50.99547,52.18963,51.89146,50.67658,52.65737,51.46737,51.46278,51.447254,51.44647,51.34938,51.58376,51.49382,51.45502,51.38707,50.64069,52.9511,50.45853,51.776733,51.83618,52.95473,51.2736,51.420887,51.415802,51.571712,51.524807,51.40833,51.51265,51.05796,51.35764,51.40463,51.41759,51.4771,51.49222,51.86747,51.48395,51.49918,51.51834,51.518314,51.51514,51.51488,51.519726,51.48291,51.519,51.51875,51.50871,51.5133,51.51037,51.51069,51.51118,51.50973,51.5171,51.51383,51.50539,51.50707,51.50171,51.511368,51.30044,51.51367,51.502422,51.50854,51.49912,51.49951,51.51008,51.51375,51.506077,51.50728,51.49124,51.50623,51.509212,51.508713,51.49168,51.49763,51.52064,51.49863,51.51857,51.49318,51.52711,51.524086,51.51894,51.52427,51.52378,51.52032,51.51521,51.510372,51.50268,51.46336,51.44607,51.228825,51.062347,51.08932,51.34392,51.11521,51.295284,49.18488,49.181225,47.83636,47.79536,48.23129,48.21056,48.20558,48.20229,37.4285,37.82476,37.75555,37.760204,37.76327,37.78923,37.79812,37.79167,34.067352,34.08238,34.070095,34.083523,34.02526,34.024204,41.885,41.886196,41.85904,62.13667,55.72682,55.68305,55.68332,55.67219,37.96525,22.30099,22.293337,22.30357,22.30331,22.281616,22.286467,22.282127,22.284338,22.28315,22.282766,22.280596,22.280643,47.49712,22.18996,22.18753,22.188755,22.14958,22.14293,40.742905,40.718685,40.716797,40.76907,40.76749,40.75397,40.721832,40.752396,40.72909,40.76106,40.76078,40.7666,40.71222,40.70492,53.33893,-22.98601,-23.55653,-23.56618,37.52559,37.525585,37.526752,37.52219,37.51844,1.283175,1.2896459,1.2863698,1.302395,1.3066648,63.43626,59.33365,59.322342,55.604427,55.61246,25.082666,25.08258,25.082718,25.037945,25.04486,13.737679,13.710947,13.722148,13.723197,38.896294,38.880707,56.28339,54.201885,54.56647,53.54162,52.92438,50.594086,51.71674,52.21243,51.57031,51.51674,51.51261,51.51127,51.52041,51.5101,51.50208,51.5113,51.51287,51.50769,51.49341,48.25406,37.22761,37.78521,37.79762,37.79835,38.40443,38.52025,38.612164,41.91328,55.70393,22.296572,22.27614,22.28665,22.286646,22.28189,22.281199,22.28511,22.190475,22.189949,22.149137,59.910477,40.76855,40.76828,40.76177,40.7417,40.68872,37.555813,37.52265,59.33418,25.049496,38.713623,51.50828,51.50773,51.50712,51.511826,51.48546,49.5350437108,49.2294684545,49.4962071673,49.2364144792,49.0561152679,49.1931089559,49.1145718934,48.7456611326,48.5649672919,48.1690533002,49.1146728375,49.2536803816,49.6089966327,49.6115295806,49.5977435457,49.5181155961,49.9377774309,49.8778387411,49.8215258321,49.7683796369,49.642641682,49.7421186257,49.776898447,49.5420957803,49.3540215491,49.4078515067,49.4388439281,49.8643127484,49.9996078224,49.1236682715,50.5510135919,50.5305831636,50.475145484,50.3663826696,50.5929304696,50.7418818794,50.48644372,50.258982201,50.4713695945,50.660240347,50.4664872045,50.6823171631,50.3245466577,50.5789933991,50.2396186754,49.8788905444,49.9600435951,49.8954237999,50.2801303721,50.2175012021,50.3607277869,50.4831723164,49.5071414243,50.7297074011,49.6098425337,49.702568059,50.5249339304,50.5160589537,50.4373324985,50.5625178815,48.6929837994,49.1948579978,49.4913099952,49.5378379952,50.2107208588,50.3579999978,50.3692099979,50.4389381281,50.4382399983,49.5803949994,49.5398839994,50.6821479995,50.4545249995,50.6095799995,50.2844739994,50.5690189995,48.950262998,49.6149060156,49.3272787187,49.3171087302,49.2349461042,50.4547647503,49.5127320035,50.437600325,50.6602215461,50.7230121929],[10.17114,13.07917,13.03409,13.04006,16.36852,16.37931,16.37174,16.37672,16.37098,16.37456,16.34115,16.37156,-122.08044,-122.14362,-122.21151,-122.25178,-122.03537,-122.3366,-122.3211,-122.345985,-122.414215,-122.42013,-122.423134,-122.40298,-122.41946,-122.40498,-122.41048,-122.40113,-122.39987,-122.40754,-122.39213,-122.42271,-122.40951,-122.399574,-122.40917,-122.406654,-122.40333,-122.43886,-122.41445,-122.43282,-122.43283,-122.42709,-122.43375,-122.42208,-122.422005,-122.44614,-122.42066,-122.43581,-122.45264,-122.461525,-122.56168,-121.924355,-122.28928,-122.28349,-122.3619,-122.40534,-122.8835,-121.41424,-122.88647,-123.719444,-118.49415,-118.49118,-118.49748,-118.460915,-118.401024,-118.39849,-118.45195,-118.39904,-118.44229,-118.33851,-118.338974,-118.32455,-118.30057,-118.255844,-118.256134,-118.24265,-118.07159,-118.275406,-117.924965,-117.886566,-117.20013,-87.70638,-87.69596,-87.688736,-87.68686,-87.67477,-87.66792,-87.66725,-87.6652,-87.66071,-87.65757,-87.65187,-87.64806,-87.64356,-87.64247,-87.63762,-87.63212,-87.63085,-87.62457,13.631168,14.251401,15.988205,15.888903,18.111523,14.42193,14.42511,10.20937,10.212132,10.20372,10.208638,9.53302,9.752689,11.390805,12.49548,12.541014,12.543222,12.55754,12.53798,12.58492,12.58497,12.58508,12.584003,12.59191,12.5980835,12.591292,12.57634,12.04623,14.969216,24.95648,24.93308,24.941635,24.947704,24.95256,24.942947,23.79377,23.658577,23.71895,114.27188,114.22482,114.16665,114.17133,114.16933,114.17147,114.17194,114.177155,114.19211,114.17197,114.174034,114.17182,114.170006,114.16916,114.16007,114.184135,114.168236,114.18364,114.17716,114.17763,114.17718,114.175385,114.18452,114.17273,114.17126,114.15951,114.1643,114.1572,114.15313,114.1574,114.155655,114.16034,114.15312,114.15646,114.15682,114.157364,114.15752,114.15525,114.147865,114.152405,114.15276,114.198524,19.048595,19.052391,19.059624,19.05256,19.061779,113.543,113.5439,113.54578,113.54028,113.555405,113.56397,113.56335,113.56152,113.55393,113.56256,113.551926,10.39628,10.39631,5.732877,5.7433133,10.71369,10.75106,10.74305,-74.0077,-74.0077,-74.01544,-74.00633,-74.00814,-74.00744,-74.00451,-74.00137,-74.00589,-74.003006,-73.9996,-74.00046,-73.99916,-74.00017,-74.00001,-73.99366,-73.99375,-73.99242,-73.99379,-73.993515,-73.99077,-73.98883,-73.99375,-73.99441,-73.988075,-73.98868,-73.987595,-73.98357,-73.98706,-73.98928,-73.994774,-73.99003,-73.98228,-73.98655,-73.98922,-73.98292,-73.98526,-73.98428,-73.9775,-73.97355,-73.9828,-73.97474,-73.97364,-73.971725,-73.96414,-73.98615,-73.95187,-73.958275,-73.943726,-73.96317,-73.95425,-73.96263,-73.95538,-73.96297,-73.923035,21.005886,21.03768,-9.057078,-9.044447,-9.2911,-9.460854,-9.37234,-8.479933,-6.263786,-6.258506,-6.24834,-7.2464285,-6.177574,-7.188277,-7.7135396,-43.20658,-43.19557,-43.194424,-43.17925,-43.17901,-46.67737,-46.67974,-46.679146,-46.666767,-46.6809,-46.6767,-46.72428,-46.67146,-46.64936,-46.6598,127.10257,126.997284,126.98852,126.98845,127.049736,127.04441,127.04396,126.98318,127.04217,127.032646,126.97534,127.00135,126.99934,126.98341,127.002,126.99442,126.9948,126.91324,126.92022,103.8624,103.8573,103.84955,103.855,103.8603,103.8539,103.8353,103.8521,103.8516,103.8529,103.8562,103.8607,103.834,103.8366,103.8353,103.8349,103.8538,103.8324,103.829475,103.8294,103.84949,103.8288,103.8474,103.8257,103.8154,103.825,103.84849,103.84713,103.8439,103.8418,103.843,103.8415,103.842,103.8402,11.9624,11.965365,11.97377,11.98338,11.977609,11.99021,18.05863,18.049892,18.079683,18.07521,18.071363,18.07543,17.985748,14.80387,12.99794,13.00537,121.53623,121.552765,121.56771,121.55076,121.529976,121.52533,121.55019,121.55465,121.55323,121.52399,121.55281,121.52724,121.54809,121.524254,121.54841,121.531395,121.512215,121.4984,100.502144,100.58844,100.56789,100.57972,100.580826,100.57799,100.53451,100.54798,100.540565,100.54092,100.56848,100.54642,100.54605,100.54275,100.502045,100.50466,100.53926,100.546326,100.53741,100.52939,100.28264,98.2764,-77.05128,-77.043274,-77.03836,-77.03834,-77.03671,-77.035446,-77.0321,-77.024666,-77.0218,-77.0218,-77.02032,-76.99908,-76.99515,-6.57114,-4.7425,-5.9322424,-5.92198,-2.8845797,-3.172842,-3.17019,-3.18966,-3.18018,-2.696321,-3.0157998,-2.91172,-2.95464,-1.61127,-4.163006,-2.4476,-1.8183095,-3.04307,-2.25097,-3.44329,-3.94491,-1.1879199,-2.88913,-1.01023,-1.539937,-3.13769,-0.53301,-1.6269798,-0.59013,-4.118807,-2.95438,-4.9398518,-1.9238801,-1.9018,-1.900286,-4.832,-1.88384,-1.70536,-1.145851,-2.686909,-3.167951,-4.97088,-1.5801147,-3.67163,-1.7092043,-2.07912,-3.87354,-0.66812,-2.6069899,-2.597758,-2.5940728,-2.59358,-2.5925994,-2.14954,-2.23212,-2.25941,-2.3627,-3.4186063,0.50927,-3.52438,-1.264794,-1.1499,0.98729,-1.8007996,-1.3493549,-1.353532,-0.7772678,-0.7915291,-0.9542898,-0.69641,-1.3069497,-0.7086128,-0.616715,-0.545847,-0.28574,-0.25619,0.404134,-0.22423,-0.19692,-0.153031,-0.1520875,-0.15675,-0.15664,-0.142555,-0.19651,-0.13511,-0.1350068,-0.15162,-0.14234,-0.14475,-0.14401,-0.14303,-0.14494,-0.13144,-0.13673,-0.15039,-0.14722,-0.15614,-0.1396773,-0.49287,-0.1352,-0.1522617,-0.14154,-0.15731,-0.15662,-0.13809,-0.1318,-0.144289,-0.14141,-0.16724,-0.13998,-0.1334389,-0.1334072,-0.16124,-0.14556,-0.10133,-0.13726,-0.10031,-0.14128,-0.07927,-0.0815337,-0.08625,-0.0767681,-0.07704,-0.0781,-0.08431,-0.0788981,-0.07774,-0.14148,-0.16553,-0.3346741,-0.326034,-0.05691,0.95885,0.64215,1.1261871,-2.1057,-2.102417,13.06389,13.00695,16.37637,16.37996,16.37693,16.3805,-122.14272,-122.25505,-122.417145,-122.41969,-122.41543,-122.40665,-122.40331,-122.42131,-118.40067,-118.37654,-118.37649,-118.33019,-118.41206,-118.38166,-87.660736,-87.64513,-87.62562,-7.022025,8.242021,12.58921,12.61006,12.58848,23.742971,114.17221,114.17395,114.16007,114.16021,114.1824,114.15677,114.15948,114.156654,114.1554,114.15529,114.15764,114.15674,19.05067,113.54794,113.54806,113.54488,113.56505,113.563774,-74.00769,-74.00911,-74.00565,-73.98155,-73.98114,-73.982025,-73.99012,-73.981575,-73.98448,-73.97628,-73.97214,-73.96745,-73.96642,-73.93354,-6.25283,-43.22471,-46.69083,-46.66742,127.04193,127.04107,127.03571,127.0392,127.03008,103.8598,103.8516,103.854,103.8365,103.8314,13.29337,18.0807,18.101831,12.995848,13.99265,121.559525,121.5595,121.559296,121.55487,121.52198,100.542145,100.545654,100.51691,100.513855,-77.02386,-76.99514,-3.75149,-2.953807,-1.689258,-2.8895495,-1.1733198,-4.82854,-1.09187,0.12779,-0.78113,-0.20007,-0.2030516,-0.15517,-0.13647,-0.1495701,-0.16011,-0.14455,-0.14136,-0.14926,-0.1690893,16.35915,-121.98071,-122.39876,-122.40337,-122.43586,-122.36474,-122.46479,-122.869705,-87.64798,12.57197,114.1698,114.171,114.15674,114.15662,114.15839,114.15816,114.15208,113.54341,113.54395,113.56715,10.760408,-73.98335,-73.98292,-73.98223,-73.98712,-73.98581,127.00517,127.03595,18.05812,121.51674,-78.16208,-0.70232,-0.70121,-0.1525201,-0.140389,-0.1620201,6.3866613437,7.0075893048,7.1121759188,7.2687910478,6.6268517962,6.9147415385,7.0446118284,6.8588206914,6.4635204619,6.4492326948,6.1704605302,6.1649006872,6.1358278652,6.1286063512,6.2495964742,6.1870018896,6.8114102616,6.9264569671,6.9026800587,6.8921562521,7.011203546,6.6674451627,7.6581463707,8.1382202739,8.1355681557,8.185441695,8.1817657101,8.2550978355,8.1260045183,8.2047101967,7.1640209167,7.0780941617,4.7259060823,4.8460635989,4.83328962,4.8802066513,5.2222406373,5.0408853291,5.3878908805,4.3797400428,4.2702712021,4.3699369046,5.5298448466,5.5962350392,5.4107947177,5.6826182972,5.1226477716,5.1174823145,6.1261839944,4.2434415187,3.8872618765,3.8385741266,5.4752378511,3.6736475372,6.1332199828,6.2173174516,3.5743792092,4.2619660695,6.1411946019,4.684445531,6.1812296,7.6208199997,8.175093999,8.180730999,6.8823794698,7.5994389997,7.5813029997,7.3972405205,7.3983309998,5.955346,6.144703,4.27298,3.95132,5.37097,6.122129,4.179224,7.5435039997,6.1427697283,6.7203224689,6.7552258148,6.9995848103,7.4623690924,8.1545853468,4.8642593778,4.4128000592,4.3983642495],1,null,null,{"interactive":true,"className":"","stroke":true,"color":["#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#0D0887","#CC4779","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#CC4779","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#CC4779","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#0D0887","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#0D0887","#CC4779","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#CC4779","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#CC4779","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921","#F0F921"],"fillOpacity":0.2},null,null,["Name: Kilian Stuba<br>City: Kleinwalsertal<br>Star: one","Name: Pfefferschiff<br>City: Hallwang<br>Star: one","Name: Esszimmer<br>City: Salzburg<br>Star: one","Name: Carpe Diem<br>City: Salzburg<br>Star: one","Name: Edvard<br>City: Wien<br>Star: one","Name: Das Loft<br>City: Wien<br>Star: one","Name: Pramerl & the Wolf<br>City: Wien<br>Star: one","Name: Walter Bauer<br>City: Wien<br>Star: one","Name: SHIKI<br>City: Wien<br>Star: one","Name: Tian<br>City: Wien<br>Star: one","Name: aend<br>City: Wien<br>Star: one","Name: Le Ciel by Toni Mörwald<br>City: Wien<br>Star: one","Name: Chez TJ<br>City: South San Francisco<br>Star: one","Name: Protégé<br>City: South San Francisco<br>Star: one","Name: Madera<br>City: San Francisco<br>Star: one","Name: The Village Pub<br>City: San Francisco<br>Star: one","Name: Plumed Horse<br>City: South San Francisco<br>Star: one","Name: Wakuriya<br>City: San Francisco<br>Star: one","Name: Sushi Yoshizumi<br>City: San Francisco<br>Star: one","Name: Rasa<br>City: San Francisco<br>Star: one","Name: Maum<br>City: South San Francisco<br>Star: one","Name: Al's Place<br>City: San Francisco<br>Star: one","Name: Aster<br>City: San Francisco<br>Star: one","Name: Omakase<br>City: San Francisco<br>Star: one","Name: Commonwealth<br>City: San Francisco<br>Star: one","Name: Luce<br>City: San Francisco<br>Star: one","Name: Birdsong<br>City: San Francisco<br>Star: one","Name: In Situ<br>City: San Francisco<br>Star: one","Name: Mourad<br>City: San Francisco<br>Star: one","Name: Hashiri<br>City: San Francisco<br>Star: one","Name: Angler<br>City: San Francisco<br>Star: one","Name: Rich Table<br>City: San Francisco<br>Star: one","Name: Kin Khao<br>City: San Francisco<br>Star: one","Name: Michael Mina<br>City: San Francisco<br>Star: one","Name: Sons & Daughters<br>City: San Francisco<br>Star: one","Name: Mister Jiu's<br>City: San Francisco<br>Star: one","Name: Nico<br>City: San Francisco<br>Star: one","Name: jū-ni<br>City: San Francisco<br>Star: one","Name: Keiko à Nob Hill<br>City: San Francisco<br>Star: one","Name: The Progress<br>City: San Francisco<br>Star: one","Name: State Bird Provisions<br>City: San Francisco<br>Star: one","Name: Octavia<br>City: San Francisco<br>Star: one","Name: SPQR<br>City: San Francisco<br>Star: one","Name: Lord Stanley<br>City: San Francisco<br>Star: one","Name: Kinjo<br>City: San Francisco<br>Star: one","Name: Sorrel<br>City: San Francisco<br>Star: one","Name: Gary Danko<br>City: San Francisco<br>Star: one","Name: Bar Crenn<br>City: San Francisco<br>Star: one","Name: Spruce<br>City: San Francisco<br>Star: one","Name: Wako<br>City: San Francisco<br>Star: one","Name: Madcap<br>City: San Francisco<br>Star: one","Name: Aubergine<br>City: Monterey<br>Star: one","Name: Kenzo<br>City: San Francisco<br>Star: one","Name: La Toque<br>City: San Francisco<br>Star: one","Name: Bouchon<br>City: San Francisco<br>Star: one","Name: Auberge du Soleil<br>City: San Francisco<br>Star: one","Name: Farmhouse Inn & Restaurant<br>City: San Francisco<br>Star: one","Name: The Kitchen<br>City: Sacramento<br>Star: one","Name: Madrona Manor<br>City: San Francisco<br>Star: one","Name: Harbor House<br>City: San Francisco<br>Star: one","Name: Shin Sushi<br>City: Los Angeles<br>Star: one","Name: Rustic Canyon<br>City: Los Angeles<br>Star: one","Name: Dialogue<br>City: Los Angeles<br>Star: one","Name: Kato<br>City: Los Angeles<br>Star: one","Name: CUT<br>City: Los Angeles<br>Star: one","Name: Nozawa Bar<br>City: Los Angeles<br>Star: one","Name: Shunji<br>City: Los Angeles<br>Star: one","Name: Maude<br>City: Los Angeles<br>Star: one","Name: Mori Sushi<br>City: Los Angeles<br>Star: one","Name: Trois Mec<br>City: Los Angeles<br>Star: one","Name: Osteria Mozza<br>City: Los Angeles<br>Star: one","Name: Kali<br>City: Los Angeles<br>Star: one","Name: Le Comptoir<br>City: Los Angeles<br>Star: one","Name: Q Sushi<br>City: Los Angeles<br>Star: one","Name: Shibumi<br>City: Los Angeles<br>Star: one","Name: Hayato<br>City: Los Angeles<br>Star: one","Name: Bistro Na's<br>City: Los Angeles<br>Star: one","Name: Orsa & Winston<br>City: Los Angeles<br>Star: one","Name: Taco María<br>City: Costa Mesa<br>Star: one","Name: Hana re<br>City: Costa Mesa<br>Star: one","Name: Addison<br>City: San Diego<br>Star: one","Name: Parachute<br>City: Chicago<br>Star: one","Name: Goosefoot<br>City: Chicago<br>Star: one","Name: Elizabeth<br>City: Chicago<br>Star: one","Name: EL Ideas<br>City: Chicago<br>Star: one","Name: Band of Bohemia<br>City: Chicago<br>Star: one","Name: Schwa<br>City: Chicago<br>Star: one","Name: Temporis<br>City: Chicago<br>Star: one","Name: Entente<br>City: Chicago<br>Star: one","Name: Elske<br>City: Chicago<br>Star: one","Name: Dusek's (Board & Beer)<br>City: Chicago<br>Star: one","Name: Roister<br>City: Chicago<br>Star: one","Name: Boka<br>City: Chicago<br>Star: one","Name: Blackbird<br>City: Chicago<br>Star: one","Name: Sepia<br>City: Chicago<br>Star: one","Name: North Pond<br>City: Chicago<br>Star: one","Name: Everest<br>City: Chicago<br>Star: one","Name: Topolobampo<br>City: Chicago<br>Star: one","Name: Spiaggia<br>City: Chicago<br>Star: one","Name: Monte<br>City: Rovinj<br>Star: one","Name: Draga di Lovrana<br>City: Lovran<br>Star: one","Name: Noel<br>City: Zagreb<br>Star: one","Name: Pelegrini<br>City: Šibenik<br>Star: one","Name: 360º<br>City: Dubrovnik<br>Star: one","Name: Field<br>City: Praha<br>Star: one","Name: La Degustation Bohême Bourgeoise<br>City: Praha<br>Star: one","Name: Gastromé<br>City: Aarhus<br>Star: one","Name: Domestic<br>City: Aarhus<br>Star: one","Name: Substans<br>City: Aarhus<br>Star: one","Name: Frederikshøj<br>City: Aarhus<br>Star: one","Name: Me‚Mu<br>City: Vejle<br>Star: one","Name: Ti Trin Ned<br>City: Fredericia<br>Star: one","Name: Slotskøkkenet<br>City: Hørve<br>Star: one","Name: Søllerød Kro<br>City: København<br>Star: one","Name: Jordnær<br>City: København<br>Star: one","Name: Relæ<br>City: København<br>Star: one","Name: Kiin Kiin<br>City: København<br>Star: one","Name: formel B<br>City: København<br>Star: one","Name: Kokkeriet<br>City: København<br>Star: one","Name: Clou<br>City: København<br>Star: one","Name: Marchal<br>City: København<br>Star: one","Name: Kong Hans Kælder<br>City: København<br>Star: one","Name: Stud!o at The Standard<br>City: København<br>Star: one","Name: 108<br>City: København<br>Star: one","Name: Era Ora<br>City: København<br>Star: one","Name: Alouette<br>City: København<br>Star: one","Name: Frederiksminde<br>City: Præstø<br>Star: one","Name: Kadeau Bornholm<br>City: Pedersker<br>Star: one","Name: Ask<br>City: Helsingfors / Helsinki<br>Star: one","Name: Grön<br>City: Helsingfors / Helsinki<br>Star: one","Name: Demo<br>City: Helsingfors / Helsinki<br>Star: one","Name: Olo<br>City: Helsingfors / Helsinki<br>Star: one","Name: Palace<br>City: Helsingfors / Helsinki<br>Star: one","Name: Ora<br>City: Helsingfors / Helsinki<br>Star: one","Name: Botrini's<br>City: Athína<br>Star: one","Name: Varoulko Seaside<br>City: Athína<br>Star: one","Name: Hytra<br>City: Athína<br>Star: one","Name: Loaf On<br>City: Hong Kong<br>Star: one","Name: Lei Garden (Kwun Tong)<br>City: Hong Kong<br>Star: one","Name: Tim Ho Wan (Sham Shui Po)<br>City: Hong Kong<br>Star: one","Name: Lei Garden (Mong Kok)<br>City: Hong Kong<br>Star: one","Name: Ming Court<br>City: Hong Kong<br>Star: one","Name: Yat Tung Heen (Jordan)<br>City: Hong Kong<br>Star: one","Name: Fu Ho (Tsim Sha Tsui)<br>City: Hong Kong<br>Star: one","Name: Shang Palace<br>City: Hong Kong<br>Star: one","Name: IM Teppanyaki & Wine<br>City: Hong Kong<br>Star: one","Name: Ah Yat Harbour View (Tsim Sha Tsui)<br>City: Hong Kong<br>Star: one","Name: Rech<br>City: Hong Kong<br>Star: one","Name: Spring Moon<br>City: Hong Kong<br>Star: one","Name: Imperial Treasure Fine Chinese Cuisine<br>City: Hong Kong<br>Star: one","Name: Sushi Tokami<br>City: Hong Kong<br>Star: one","Name: Tosca<br>City: Hong Kong<br>Star: one","Name: Yee Tung Heen<br>City: Hong Kong<br>Star: one","Name: Yè Shanghai (Tsim Sha Tsui)<br>City: Hong Kong<br>Star: one","Name: Ho Hung Kee<br>City: Hong Kong<br>Star: one","Name: Jardin de Jade (Wan Chai)<br>City: Hong Kong<br>Star: one","Name: Zhejiang Heen<br>City: Hong Kong<br>Star: one","Name: Takumi by Daisuke Mori<br>City: Hong Kong<br>Star: one","Name: Kam's Roast Goose<br>City: Hong Kong<br>Star: one","Name: Pang's Kitchen<br>City: Hong Kong<br>Star: one","Name: Xin Rong Ji<br>City: Hong Kong<br>Star: one","Name: Qi (Wan Chai)<br>City: Hong Kong<br>Star: one","Name: Man Wah<br>City: Hong Kong<br>Star: one","Name: Summer Palace<br>City: Hong Kong<br>Star: one","Name: Octavium<br>City: Hong Kong<br>Star: one","Name: VEA<br>City: Hong Kong<br>Star: one","Name: Mandarin Grill + Bar<br>City: Hong Kong<br>Star: one","Name: Yat Lok<br>City: Hong Kong<br>Star: one","Name: Guo Fu Lou<br>City: Hong Kong<br>Star: one","Name: Celebrity Cuisine<br>City: Hong Kong<br>Star: one","Name: Sushi Wadatsumi<br>City: Hong Kong<br>Star: one","Name: Arcane<br>City: Hong Kong<br>Star: one","Name: Duddell's<br>City: Hong Kong<br>Star: one","Name: Beefbar<br>City: Hong Kong<br>Star: one","Name: New Punjab Club<br>City: Hong Kong<br>Star: one","Name: Kaiseki Den by Saotome<br>City: Hong Kong<br>Star: one","Name: Belon<br>City: Hong Kong<br>Star: one","Name: Tate<br>City: Hong Kong<br>Star: one","Name: The Ocean<br>City: Hong Kong<br>Star: one","Name: Costes Downtown<br>City: Budapest<br>Star: one","Name: Borkonyha Winekitchen<br>City: Budapest<br>Star: one","Name: Stand<br>City: Budapest<br>Star: one","Name: Babel<br>City: Budapest<br>Star: one","Name: Costes<br>City: Budapest<br>Star: one","Name: The Kitchen<br>City: Macau<br>Star: one","Name: Tim's Kitchen<br>City: Macau<br>Star: one","Name: Wing Lei<br>City: Macau<br>Star: one","Name: King<br>City: Macau<br>Star: one","Name: Ying<br>City: Macau<br>Star: one","Name: Shinji by Kanesaka<br>City: Macau<br>Star: one","Name: The Golden Peacock<br>City: Macau<br>Star: one","Name: Zi Yat Heen<br>City: Macau<br>Star: one","Name: 8 1/2 Otto e Mezzo - Bombana<br>City: Macau<br>Star: one","Name: Pearl Dragon<br>City: Macau<br>Star: one","Name: Lai Heen<br>City: Macau<br>Star: one","Name: FAGN<br>City: Trondheim<br>Star: one","Name: Credo<br>City: Trondheim<br>Star: one","Name: RE-NAA<br>City: Stavanger<br>Star: one","Name: Sabi Omakase<br>City: Stavanger<br>Star: one","Name: Galt<br>City: Oslo<br>Star: one","Name: Kontrast<br>City: Oslo<br>Star: one","Name: Statholdergaarden<br>City: Oslo<br>Star: one","Name: Del Posto<br>City: New York<br>Star: one","Name: Le Grill de Joël Robuchon<br>City: New York<br>Star: one","Name: L'Appart<br>City: New York<br>Star: one","Name: Okuda<br>City: New York<br>Star: one","Name: Wallsé<br>City: New York<br>Star: one","Name: Jeju Noodle Bar<br>City: New York<br>Star: one","Name: Sushi Nakazawa<br>City: New York<br>Star: one","Name: Kosaka<br>City: New York<br>Star: one","Name: Bâtard<br>City: New York<br>Star: one","Name: Hirohisa<br>City: New York<br>Star: one","Name: Blue Hill<br>City: New York<br>Star: one","Name: ZZ's Clam Bar<br>City: New York<br>Star: one","Name: Babbo<br>City: New York<br>Star: one","Name: Carbone<br>City: New York<br>Star: one","Name: Le Coucou<br>City: New York<br>Star: one","Name: Aldea<br>City: New York<br>Star: one","Name: Cote<br>City: New York<br>Star: one","Name: Bouley at Home<br>City: New York<br>Star: one","Name: Gotham Bar and Grill<br>City: New York<br>Star: one","Name: Nix<br>City: New York<br>Star: one","Name: Junoon<br>City: New York<br>Star: one","Name: NoMad<br>City: New York<br>Star: one","Name: The Musket Room<br>City: New York<br>Star: one","Name: Uncle Boons<br>City: New York<br>Star: one","Name: Noda<br>City: New York<br>Star: one","Name: Gramercy Tavern<br>City: New York<br>Star: one","Name: The Clocktower<br>City: New York<br>Star: one","Name: Ai Fiori<br>City: New York<br>Star: one","Name: Casa Mono<br>City: New York<br>Star: one","Name: Jewel Bako<br>City: New York<br>Star: one","Name: The River Café<br>City: New York<br>Star: one","Name: Bar Uchū<br>City: New York<br>Star: one","Name: Café China<br>City: New York<br>Star: one","Name: Kanoyama<br>City: New York<br>Star: one","Name: Contra<br>City: New York<br>Star: one","Name: Atomix<br>City: New York<br>Star: one","Name: Kyo Ya<br>City: New York<br>Star: one","Name: Kajitsu<br>City: New York<br>Star: one","Name: Agern<br>City: New York<br>Star: one","Name: Caviar Russe<br>City: New York<br>Star: one","Name: Tuome<br>City: New York<br>Star: one","Name: Tempura Matsui<br>City: New York<br>Star: one","Name: Sushi Yasuda<br>City: New York<br>Star: one","Name: Sushi Amane<br>City: New York<br>Star: one","Name: Café Boulud<br>City: New York<br>Star: one","Name: Claro<br>City: New York<br>Star: one","Name: Satsuki<br>City: New York<br>Star: one","Name: Sushi Noz<br>City: New York<br>Star: one","Name: Sushi Inoue<br>City: New York<br>Star: one","Name: Meadowsweet<br>City: New York<br>Star: one","Name: Casa Enríque<br>City: New York<br>Star: one","Name: Peter Luger<br>City: New York<br>Star: one","Name: Oxomoco<br>City: New York<br>Star: one","Name: The Finch<br>City: New York<br>Star: one","Name: Faro<br>City: New York<br>Star: one","Name: Senses<br>City: Warszawa<br>Star: one","Name: atelier Amaro<br>City: Warszawa<br>Star: one","Name: Aniar<br>City: Gaillimh/Galway<br>Star: one","Name: Loam<br>City: Gaillimh/Galway<br>Star: one","Name: Wild Honey Inn<br>City: Lios Dúin Bhearna/Lisdoonvarna<br>Star: one","Name: Chestnut<br>City: Ballydehob<br>Star: one","Name: Mews<br>City: Baltimore<br>Star: one","Name: Ichigo Ichie<br>City: Corcaigh/Cork<br>Star: one","Name: Chapter One<br>City: City Centre<br>Star: one","Name: Greenhouse<br>City: City Centre<br>Star: one","Name: L'Ecrivain<br>City: City Centre<br>Star: one","Name: Campagne<br>City: Cill Chainnigh/Kilkenny<br>Star: one","Name: Heron & Grey<br>City: Blackrock<br>Star: one","Name: Lady Helen<br>City: Baile Mhic Andáin/Thomastown<br>Star: one","Name: House<br>City: Aird Mhór/Ardmore<br>Star: one","Name: Olympe<br>City: Rio de Janeiro - 22470<br>Star: one","Name: Lasai<br>City: Rio de Janeiro - 22271<br>Star: one","Name: Oteque<br>City: Rio de Janeiro - 22271<br>Star: one","Name: Mee<br>City: Rio de Janeiro - 22021<br>Star: one","Name: Cipriani<br>City: Rio de Janeiro - 22021<br>Star: one","Name: Jun Sakamoto<br>City: São Paulo - 05413<br>Star: one","Name: Maní<br>City: São Paulo - 05415<br>Star: one","Name: Evvai<br>City: São Paulo - 05415<br>Star: one","Name: Picchi<br>City: São Paulo - 01426<br>Star: one","Name: Kosushi<br>City: São Paulo - 04538<br>Star: one","Name: Ryo Gastronomia<br>City: São Paulo - 04531<br>Star: one","Name: Tangará Jean-Georges<br>City: São Paulo - 05706<br>Star: one","Name: Kinoshita<br>City: São Paulo - 04509<br>Star: one","Name: Kan Suke<br>City: São Paulo - 01401<br>Star: one","Name: Huto<br>City: São Paulo - 04080<br>Star: one","Name: Stay<br>City: Seoul<br>Star: one","Name: Lee Jong Kuk 104<br>City: Seoul<br>Star: one","Name: Hansikgonggan<br>City: Seoul<br>Star: one","Name: Dining in Space<br>City: Seoul<br>Star: one","Name: Exquisine<br>City: Seoul<br>Star: one","Name: Dosa<br>City: Seoul<br>Star: one","Name: Joo Ok<br>City: Seoul<br>Star: one","Name: Balwoo Gongyang<br>City: Seoul<br>Star: one","Name: Muoki<br>City: Seoul<br>Star: one","Name: L'Amitié<br>City: Seoul<br>Star: one","Name: Yu Yuan<br>City: Seoul<br>Star: one","Name: Bicena<br>City: Seoul<br>Star: one","Name: Mosu<br>City: Seoul<br>Star: one","Name: Poom<br>City: Seoul<br>Star: one","Name: Soigné<br>City: Seoul<br>Star: one","Name: Table for Four<br>City: Seoul<br>Star: one","Name: Zero Complex<br>City: Seoul<br>Star: one","Name: Jin Jin<br>City: Seoul<br>Star: one","Name: Gotgan<br>City: Seoul<br>Star: one","Name: Hill Street Tai Hwa Pork Noodle<br>City: Singapore<br>Star: one","Name: Putien (Kitchener Road)<br>City: Singapore<br>Star: one","Name: Chef Kang's<br>City: Singapore<br>Star: one","Name: Garibaldi<br>City: Singapore<br>Star: one","Name: Summer Pavilion<br>City: Singapore<br>Star: one","Name: Shinji (Bras Basah Road)<br>City: Singapore<br>Star: one","Name: The Song of India<br>City: Singapore<br>Star: one","Name: Lei Garden<br>City: Singapore<br>Star: one","Name: Whitegrass<br>City: Singapore<br>Star: one","Name: Jaan<br>City: Singapore<br>Star: one","Name: Labyrinth<br>City: Singapore<br>Star: one","Name: Cut<br>City: Singapore<br>Star: one","Name: Alma<br>City: Singapore<br>Star: one","Name: Béni<br>City: Singapore<br>Star: one","Name: Crystal Jade Golden Palace<br>City: Singapore<br>Star: one","Name: Imperial Treasure Fine Teochew Cuisine (Orchard)<br>City: Singapore<br>Star: one","Name: Saint Pierre<br>City: Singapore<br>Star: one","Name: Sushi Ichi<br>City: Singapore<br>Star: one","Name: Sushi Kimura<br>City: Singapore<br>Star: one","Name: Iggy's<br>City: Singapore<br>Star: one","Name: Braci<br>City: Singapore<br>Star: one","Name: Jiang-Nan Chun<br>City: Singapore<br>Star: one","Name: Bacchanalia<br>City: Singapore<br>Star: one","Name: Shinji (Tanglin Road)<br>City: Singapore<br>Star: one","Name: Corner House<br>City: Singapore<br>Star: one","Name: Summer Palace<br>City: Singapore<br>Star: one","Name: Cheek by Jowl<br>City: Singapore<br>Star: one","Name: Nouri<br>City: Singapore<br>Star: one","Name: Liao Fan Hong Kong Soya Sauce Chicken Rice & Noodle<br>City: Singapore<br>Star: one","Name: Burnt Ends<br>City: Singapore<br>Star: one","Name: Rhubarb<br>City: Singapore<br>Star: one","Name: Meta<br>City: Singapore<br>Star: one","Name: Ma Cuisine<br>City: Singapore<br>Star: one","Name: Candlenut<br>City: Singapore<br>Star: one","Name: Bhoga<br>City: Göteborg<br>Star: one","Name: Koka<br>City: Göteborg<br>Star: one","Name: 28+<br>City: Göteborg<br>Star: one","Name: SK Mat & Människor<br>City: Göteborg<br>Star: one","Name: Thörnströms Kök<br>City: Göteborg<br>Star: one","Name: Upper House<br>City: Göteborg<br>Star: one","Name: Agrikultur<br>City: Stockholm<br>Star: one","Name: Sushi Sho<br>City: Stockholm<br>Star: one","Name: Volt<br>City: Stockholm<br>Star: one","Name: Ekstedt<br>City: Stockholm<br>Star: one","Name: Operakällaren<br>City: Stockholm<br>Star: one","Name: Mathias Dahlgren-Matbaren<br>City: Stockholm<br>Star: one","Name: Aloë<br>City: Stockholm<br>Star: one","Name: PM & Vänner<br>City: Växjö<br>Star: one","Name: Bloom in the Park<br>City: Malmö<br>Star: one","Name: SAV<br>City: Malmö<br>Star: one","Name: Golden Formosa<br>City: Taipei<br>Star: one","Name: Danny's Steakhouse<br>City: Taipei<br>Star: one","Name: L'Atelier de Joël Robuchon<br>City: Taipei<br>Star: one","Name: Kitcho<br>City: Taipei<br>Star: one","Name: Tien Hsiang Lo<br>City: Taipei<br>Star: one","Name: Ya Ge<br>City: Taipei<br>Star: one","Name: Da-Wan<br>City: Taipei<br>Star: one","Name: Sushi Nomura<br>City: Taipei<br>Star: one","Name: logy<br>City: Taipei<br>Star: one","Name: Ming Fu<br>City: Taipei<br>Star: one","Name: Ken An Ho<br>City: Taipei<br>Star: one","Name: Sushi Ryu<br>City: Taipei<br>Star: one","Name: MUME<br>City: Taipei<br>Star: one","Name: Impromptu by Paul Lee<br>City: Taipei<br>Star: one","Name: Longtail<br>City: Taipei<br>Star: one","Name: Mountain and Sea House<br>City: Taipei<br>Star: one","Name: Da San Yuan<br>City: Taipei<br>Star: one","Name: Tainan Tan Tsu Mien Seafood<br>City: Taipei<br>Star: one","Name: Suan Thip<br>City: Bangkok<br>Star: one","Name: Upstairs at Mikkeller<br>City: Bangkok<br>Star: one","Name: Chim by Siam Wisdom<br>City: Bangkok<br>Star: one","Name: R-Haan<br>City: Bangkok<br>Star: one","Name: Canvas<br>City: Bangkok<br>Star: one","Name: Bo.lan<br>City: Bangkok<br>Star: one","Name: Sra Bua by Kiin Kiin<br>City: Bangkok<br>Star: one","Name: Elements<br>City: Bangkok<br>Star: one","Name: Paste<br>City: Bangkok<br>Star: one","Name: Ginza Sushi ichi<br>City: Bangkok<br>Star: one","Name: Sorn<br>City: Bangkok<br>Star: one","Name: Savelberg<br>City: Bangkok<br>Star: one","Name: Saneh Jaan<br>City: Bangkok<br>Star: one","Name: Gaa<br>City: Bangkok<br>Star: one","Name: Methavalai Sorndaeng<br>City: Bangkok<br>Star: one","Name: Jay Fai<br>City: Bangkok<br>Star: one","Name: Nahm<br>City: Bangkok<br>Star: one","Name: J'AIME by Jean-Michel Lorain<br>City: Bangkok<br>Star: one","Name: Saawaan<br>City: Bangkok<br>Star: one","Name: Le Du<br>City: Bangkok<br>Star: one","Name: Ruean Panya<br>City: Bangkok<br>Star: one","Name: PRU<br>City: Phuket<br>Star: one","Name: Blue Duck Tavern<br>City: Washington, D.C.<br>Star: one","Name: Tail Up Goat<br>City: Washington, D.C.<br>Star: one","Name: Komi<br>City: Washington, D.C.<br>Star: one","Name: Sushi Taro<br>City: Washington, D.C.<br>Star: one","Name: Plume<br>City: Washington, D.C.<br>Star: one","Name: Siren by RW<br>City: Washington, D.C.<br>Star: one","Name: Bresca<br>City: Washington, D.C.<br>Star: one","Name: The Dabney<br>City: Washington, D.C.<br>Star: one","Name: Métier<br>City: Washington, D.C.<br>Star: one","Name: Kinship<br>City: Washington, D.C.<br>Star: one","Name: Fiola<br>City: Washington, D.C.<br>Star: one","Name: Masseria<br>City: Washington, D.C.<br>Star: one","Name: Rose's Luxury<br>City: Washington, D.C.<br>Star: one","Name: Loch Bay<br>City: Waternish<br>Star: one","Name: Braidwoods<br>City: Dalry<br>Star: one","Name: Eipic<br>City: Belfast<br>Star: one","Name: OX<br>City: Belfast<br>Star: one","Name: The Peat Inn<br>City: Peat Inn<br>Star: one","Name: Kitchin<br>City: Leith<br>Star: one","Name: Martin Wishart<br>City: Leith<br>Star: one","Name: Number One<br>City: Edinburgh<br>Star: one","Name: 21212<br>City: Edinburgh<br>Star: one","Name: The Cellar<br>City: Anstruther<br>Star: one","Name: Forest Side<br>City: Grasmere<br>Star: one","Name: HRiSHi<br>City: Bowness-on-Windermere<br>Star: one","Name: Rogan & Co<br>City: Cartmel<br>Star: one","Name: House of Tides<br>City: Newcastle upon Tyne<br>Star: one","Name: Sosban & The Old Butchers<br>City: Menai Bridge/Porthaethwy<br>Star: one","Name: Northcote<br>City: Langho<br>Star: one","Name: Yorke Arms<br>City: Pateley Bridge<br>Star: one","Name: Fraiche<br>City: Birkenhead<br>Star: one","Name: White Swan<br>City: Fence<br>Star: one","Name: Tyddyn Llan<br>City: Llandrillo<br>Star: one","Name: Ynyshir<br>City: Machynlleth<br>Star: one","Name: Black Swan<br>City: Oldstead<br>Star: one","Name: Simon Radley at Chester Grosvenor<br>City: Chester<br>Star: one","Name: Star Inn at Harome<br>City: Harome<br>Star: one","Name: The Man Behind The Curtain<br>City: Leeds<br>Star: one","Name: The Checkers<br>City: Montgomery/Trefaldwyn<br>Star: one","Name: Pipe and Glass<br>City: South Dalton<br>Star: one","Name: Fischer's at Baslow Hall<br>City: Baslow<br>Star: one","Name: Winteringham Fields<br>City: Winteringham<br>Star: one","Name: Thomas Carr @ The Olive Room<br>City: Ilfracombe<br>Star: one","Name: Walnut Tree<br>City: Llanddewi Skirrid<br>Star: one","Name: Paul Ainsworth at No.6<br>City: Padstow<br>Star: one","Name: Simpsons<br>City: Birmingham<br>Star: one","Name: Purnell's<br>City: Birmingham<br>Star: one","Name: Adam's<br>City: Birmingham<br>Star: one","Name: Outlaw's Fish Kitchen<br>City: Port Isaac<br>Star: one","Name: Carters of Moseley<br>City: Birmingham<br>Star: one","Name: Peel's<br>City: Hampton in Arden<br>Star: one","Name: John's House<br>City: Mountsorrel<br>Star: one","Name: The Whitebrook<br>City: Whitebrook<br>Star: one","Name: James Sommerin<br>City: Penarth<br>Star: one","Name: Driftwood<br>City: Portscatho<br>Star: one","Name: The Cross at Kenilworth<br>City: Kenilworth<br>Star: one","Name: Masons Arms<br>City: Knowstone<br>Star: one","Name: Salt<br>City: Stratford-upon-Avon<br>Star: one","Name: Le Champignon Sauvage<br>City: Cheltenham<br>Star: one","Name: Gidleigh Park<br>City: Chagford<br>Star: one","Name: Hambleton Hall<br>City: Upper Hambleton<br>Star: one","Name: wilks<br>City: Bristol<br>Star: one","Name: Bulrush<br>City: Bristol<br>Star: one","Name: Casamia<br>City: Bristol<br>Star: one","Name: Paco Tapas<br>City: Bristol<br>Star: one","Name: Pony & Trap<br>City: Chew Magna<br>Star: one","Name: The Dining Room<br>City: Malmesbury<br>Star: one","Name: Bybrook<br>City: Castle Combe<br>Star: one","Name: Restaurant Hywel Jones by Lucknam Park<br>City: Colerne<br>Star: one","Name: Olive Tree<br>City: Bath<br>Star: one","Name: Lympstone Manor<br>City: Lympstone<br>Star: one","Name: The Neptune<br>City: Hunstanton<br>Star: one","Name: Elephant<br>City: Torquay<br>Star: one","Name: Oxford Kitchen<br>City: Oxford<br>Star: one","Name: Nut Tree<br>City: Murcott<br>Star: one","Name: Morston Hall<br>City: Morston<br>Star: one","Name: Red Lion Freehouse<br>City: East Chisenbury<br>Star: one","Name: Blackbird<br>City: Newbury<br>Star: one","Name: Woodspeen<br>City: Newbury<br>Star: one","Name: The Coach<br>City: Marlow<br>Star: one","Name: Crown<br>City: Burchett's Green<br>Star: one","Name: L'Ortolan<br>City: Shinfield<br>Star: one","Name: Hinds Head<br>City: Bray<br>Star: one","Name: Black Rat<br>City: Winchester<br>Star: one","Name: Matt Worswick at The Latymer<br>City: Bagshot<br>Star: one","Name: Coworth Park<br>City: Ascot<br>Star: one","Name: Tudor Room<br>City: Egham<br>Star: one","Name: The Glasshouse<br>City: Kew<br>Star: one","Name: La Trompette<br>City: Chiswick<br>Star: one","Name: Tim Allen's Flitch of Bacon<br>City: Little Dunmow<br>Star: one","Name: River Café<br>City: Hammersmith<br>Star: one","Name: Kitchen W8<br>City: Kensington<br>Star: one","Name: Trishna<br>City: Marylebone<br>Star: one","Name: Roganic<br>City: Marylebone<br>Star: one","Name: Locanda Locatelli<br>City: Marylebone<br>Star: one","Name: Texture<br>City: Marylebone<br>Star: one","Name: Portland<br>City: Regent's Park<br>Star: one","Name: Harwood Arms<br>City: Fulham<br>Star: one","Name: Pied à Terre<br>City: Bloomsbury<br>Star: one","Name: The Ninth<br>City: Bloomsbury<br>Star: one","Name: Kai<br>City: Mayfair<br>Star: one","Name: Pollen Street Social<br>City: Mayfair<br>Star: one","Name: Hakkasan Mayfair<br>City: Mayfair<br>Star: one","Name: The Square<br>City: Mayfair<br>Star: one","Name: Alyn Williams at The Westbury<br>City: Mayfair<br>Star: one","Name: Benares<br>City: Mayfair<br>Star: one","Name: Hakkasan Hanway Place<br>City: Bloomsbury<br>Star: one","Name: Social Eating House<br>City: Soho<br>Star: one","Name: Galvin at Windows<br>City: Mayfair<br>Star: one","Name: Murano<br>City: Mayfair<br>Star: one","Name: Marcus<br>City: Belgravia<br>Star: one","Name: Sabor<br>City: Mayfair<br>Star: one","Name: Clock House<br>City: Ripley<br>Star: one","Name: Yauatcha Soho<br>City: Soho<br>Star: one","Name: Céleste<br>City: Belgravia<br>Star: one","Name: Gymkhana<br>City: Mayfair<br>Star: one","Name: Amaya<br>City: Belgravia<br>Star: one","Name: Pétrus<br>City: Belgravia<br>Star: one","Name: Veeraswamy<br>City: Mayfair<br>Star: one","Name: Barrafina<br>City: Soho<br>Star: one","Name: Hide<br>City: Mayfair<br>Star: one","Name: Ritz Restaurant<br>City: Westminster<br>Star: one","Name: Elystan Street<br>City: Chelsea<br>Star: one","Name: Seven Park Place<br>City: Saint James's<br>Star: one","Name: Ikoyi<br>City: Saint James's<br>Star: one","Name: Aquavit<br>City: Saint James's<br>Star: one","Name: Five Fields<br>City: Chelsea<br>Star: one","Name: Dining Room at The Goring<br>City: Victoria<br>Star: one","Name: St John<br>City: Clerkenwell<br>Star: one","Name: Quilon<br>City: Victoria<br>Star: one","Name: Club Gascon<br>City: London<br>Star: one","Name: A. Wong<br>City: Victoria<br>Star: one","Name: The Clove Club<br>City: Shoreditch<br>Star: one","Name: Leroy<br>City: Shoreditch<br>Star: one","Name: Angler<br>City: Finsbury<br>Star: one","Name: Brat<br>City: Shoreditch<br>Star: one","Name: Lyle's<br>City: Shoreditch<br>Star: one","Name: Galvin La Chapelle<br>City: Spitalfields<br>Star: one","Name: City Social<br>City: City of London<br>Star: one","Name: La Dame de Pic<br>City: City of London<br>Star: one","Name: Story<br>City: Bermondsey<br>Star: one","Name: Trinity<br>City: Clapham Common<br>Star: one","Name: Chez Bruce<br>City: Wandsworth<br>Star: one","Name: Sorrel<br>City: Dorking<br>Star: one","Name: Restaurant Tristan<br>City: Horsham<br>Star: one","Name: Gravetye Manor<br>City: Gravetye<br>Star: one","Name: The Sportsman<br>City: Seasalter<br>Star: one","Name: West House<br>City: Biddenden<br>Star: one","Name: Fordwich Arms<br>City: Fordwich<br>Star: one","Name: Samphire<br>City: Saint Helier/Saint-Hélier<br>Star: one","Name: Bohemia<br>City: Saint Helier/Saint-Hélier<br>Star: one","Name: SENNS.Restaurant<br>City: Salzburg<br>Star: two","Name: Ikarus<br>City: Salzburg<br>Star: two","Name: Mraz & Sohn<br>City: Wien<br>Star: two","Name: Konstantin Filippou<br>City: Wien<br>Star: two","Name: Silvio Nickol Gourmet Restaurant<br>City: Wien<br>Star: two","Name: Steirereck im Stadtpark<br>City: Wien<br>Star: two","Name: Baumé<br>City: South San Francisco<br>Star: two","Name: Commis<br>City: San Francisco<br>Star: two","Name: Californios<br>City: San Francisco<br>Star: two","Name: Lazy Bear<br>City: San Francisco<br>Star: two","Name: Saison<br>City: San Francisco<br>Star: two","Name: Campton Place<br>City: San Francisco<br>Star: two","Name: Coi<br>City: San Francisco<br>Star: two","Name: Acquerello<br>City: San Francisco<br>Star: two","Name: Urasawa<br>City: Los Angeles<br>Star: two","Name: Sushi Ginza Onodera<br>City: Los Angeles<br>Star: two","Name: Somni<br>City: Los Angeles<br>Star: two","Name: Providence<br>City: Los Angeles<br>Star: two","Name: n/naka<br>City: Los Angeles<br>Star: two","Name: Vespertine<br>City: Los Angeles<br>Star: two","Name: Smyth<br>City: Chicago<br>Star: two","Name: Oriole<br>City: Chicago<br>Star: two","Name: Acadia<br>City: Chicago<br>Star: two","Name: KOKS<br>City: Leynar<br>Star: two","Name: Henne Kirkeby Kro<br>City: Henne<br>Star: two","Name: a‚o‚c<br>City: København<br>Star: two","Name: noma<br>City: København<br>Star: two","Name: Kadeau Copenhagen<br>City: København<br>Star: two","Name: Spondi<br>City: Athína<br>Star: two","Name: Sun Tung Lok<br>City: Hong Kong<br>Star: two","Name: Yan Toh Heen<br>City: Hong Kong<br>Star: two","Name: Tin Lung Heen<br>City: Hong Kong<br>Star: two","Name: Tenku RyuGin<br>City: Hong Kong<br>Star: two","Name: Forum<br>City: Hong Kong<br>Star: two","Name: Sushi Saito<br>City: Hong Kong<br>Star: two","Name: Pierre<br>City: Hong Kong<br>Star: two","Name: Ying Jee Club<br>City: Hong Kong<br>Star: two","Name: Écriture<br>City: Hong Kong<br>Star: two","Name: Ta Vie<br>City: Hong Kong<br>Star: two","Name: Amber<br>City: Hong Kong<br>Star: two","Name: Kashiwaya<br>City: Hong Kong<br>Star: two","Name: Onyx<br>City: Budapest<br>Star: two","Name: Feng Wei Ju<br>City: Macau<br>Star: two","Name: Golden Flower<br>City: Macau<br>Star: two","Name: Mizumi (Macau)<br>City: Macau<br>Star: two","Name: The Tasting Room<br>City: Macau<br>Star: two","Name: Alain Ducasse at Morpheus<br>City: Macau<br>Star: two","Name: L'Atelier de Joël Robuchon<br>City: New York<br>Star: two","Name: Jungsik<br>City: New York<br>Star: two","Name: Atera<br>City: New York<br>Star: two","Name: Jean-Georges<br>City: New York<br>Star: two","Name: Marea<br>City: New York<br>Star: two","Name: Gabriel Kreuther<br>City: New York<br>Star: two","Name: Ichimura at Uchū<br>City: New York<br>Star: two","Name: Sushi Ginza Onodera<br>City: New York<br>Star: two","Name: Ko<br>City: New York<br>Star: two","Name: The Modern<br>City: New York<br>Star: two","Name: Aquavit<br>City: New York<br>Star: two","Name: Daniel<br>City: New York<br>Star: two","Name: Aska<br>City: New York<br>Star: two","Name: Blanca<br>City: New York<br>Star: two","Name: Patrick Guilbaud<br>City: City Centre<br>Star: two","Name: Oro<br>City: Rio de Janeiro - 22441<br>Star: two","Name: Tuju<br>City: São Paulo - 05416<br>Star: two","Name: D.O.M.<br>City: São Paulo - 01411<br>Star: two","Name: Kojima<br>City: Seoul<br>Star: two","Name: Jungsik<br>City: Seoul<br>Star: two","Name: Kwonsooksoo<br>City: Seoul<br>Star: two","Name: Mingles<br>City: Seoul<br>Star: two","Name: Alla Prima<br>City: Seoul<br>Star: two","Name: Waku Ghin<br>City: Singapore<br>Star: two","Name: Odette<br>City: Singapore<br>Star: two","Name: Shoukouwa<br>City: Singapore<br>Star: two","Name: Shisen Hanten<br>City: Singapore<br>Star: two","Name: Les Amis<br>City: Singapore<br>Star: two","Name: Fäviken Magasinet<br>City: Järpen<br>Star: two","Name: Gastrologik<br>City: Stockholm<br>Star: two","Name: Oaxen Krog<br>City: Stockholm<br>Star: two","Name: Vollmers<br>City: Malmö<br>Star: two","Name: Daniel Berlin<br>City: Skåne-Tranås<br>Star: two","Name: RAW<br>City: Taipei<br>Star: two","Name: Shoun RyuGin<br>City: Taipei<br>Star: two","Name: Taïrroir<br>City: Taipei<br>Star: two","Name: Sushi Amamoto<br>City: Taipei<br>Star: two","Name: The Guest House<br>City: Taipei<br>Star: two","Name: Gaggan<br>City: Bangkok<br>Star: two","Name: Sühring<br>City: Bangkok<br>Star: two","Name: Mezzaluna<br>City: Bangkok<br>Star: two","Name: Le Normandie<br>City: Bangkok<br>Star: two","Name: minibar<br>City: Washington, D.C.<br>Star: two","Name: Pineapple and Pearls<br>City: Washington, D.C.<br>Star: two","Name: Andrew Fairlie at Gleneagles<br>City: Auchterarder<br>Star: two","Name: L'Enclume<br>City: Cartmel<br>Star: two","Name: Raby Hunt<br>City: Summerhouse<br>Star: two","Name: Moor Hall<br>City: Aughton<br>Star: two","Name: Restaurant Sat Bains<br>City: Nottingham<br>Star: two","Name: Restaurant Nathan Outlaw<br>City: Port Isaac<br>Star: two","Name: Belmond Le Manoir aux Quat' Saisons<br>City: Great Milton<br>Star: two","Name: Midsummer House<br>City: Cambridge<br>Star: two","Name: Hand and Flowers<br>City: Marlow<br>Star: two","Name: Ledbury<br>City: North Kensington<br>Star: two","Name: CORE by Clare Smyth<br>City: North Kensington<br>Star: two","Name: Le Gavroche<br>City: Mayfair<br>Star: two","Name: Kitchen Table at Bubbledogs<br>City: Bloomsbury<br>Star: two","Name: Hélène Darroze at The Connaught<br>City: Mayfair<br>Star: two","Name: Dinner by Heston Blumenthal<br>City: Hyde Park<br>Star: two","Name: Umu<br>City: Mayfair<br>Star: two","Name: Sketch (The Lecture Room & Library)<br>City: Mayfair<br>Star: two","Name: Greenhouse<br>City: Mayfair<br>Star: two","Name: Claude Bosi at Bibendum<br>City: Chelsea<br>Star: two","Name: Amador<br>City: Wien<br>Star: three","Name: Manresa<br>City: South San Francisco<br>Star: three","Name: Benu<br>City: San Francisco<br>Star: three","Name: Quince<br>City: San Francisco<br>Star: three","Name: Atelier Crenn<br>City: San Francisco<br>Star: three","Name: The French Laundry<br>City: San Francisco<br>Star: three","Name: The Restaurant at Meadowood<br>City: San Francisco<br>Star: three","Name: SingleThread<br>City: San Francisco<br>Star: three","Name: Alinea<br>City: Chicago<br>Star: three","Name: Geranium<br>City: København<br>Star: three","Name: T'ang Court<br>City: Hong Kong<br>Star: three","Name: Bo Innovation<br>City: Hong Kong<br>Star: three","Name: Lung King Heen<br>City: Hong Kong<br>Star: three","Name: Caprice<br>City: Hong Kong<br>Star: three","Name: 8½ Otto e Mezzo - Bombana<br>City: Hong Kong<br>Star: three","Name: L'Atelier de Joël Robuchon<br>City: Hong Kong<br>Star: three","Name: Sushi Shikon<br>City: Hong Kong<br>Star: three","Name: The Eight<br>City: Macau<br>Star: three","Name: Robuchon au Dôme<br>City: Macau<br>Star: three","Name: Jade Dragon<br>City: Macau<br>Star: three","Name: Maaemo<br>City: Oslo<br>Star: three","Name: Masa<br>City: New York<br>Star: three","Name: Per Se<br>City: New York<br>Star: three","Name: Le Bernardin<br>City: New York<br>Star: three","Name: Eleven Madison Park<br>City: New York<br>Star: three","Name: Chef's Table at Brooklyn Fare<br>City: New York<br>Star: three","Name: La Yeon<br>City: Seoul<br>Star: three","Name: Gaon<br>City: Seoul<br>Star: three","Name: Frantzén<br>City: Stockholm<br>Star: three","Name: Le Palais<br>City: Taipei<br>Star: three","Name: The Inn at Little Washington<br>City: Washington, D.C.<br>Star: three","Name: Fat Duck<br>City: Bray<br>Star: three","Name: Waterside Inn<br>City: Bray<br>Star: three","Name: Alain Ducasse at The Dorchester<br>City: Mayfair<br>Star: three","Name: The Araki<br>City: Mayfair<br>Star: three","Name: Gordon Ramsay<br>City: Chelsea<br>Star: three","Name: Victor's FINE DINING by Christian Bau<br>City: Perl-Nenning<br>Star: three","Name: GästeHaus Klaus Erfort<br>City: Saarbrücken<br>Star: three","Name: Restaurant Kunz<br>City: Sankt-Wendel - Bliesen<br>Star: one","Name: Hämmerle's Restaurant Barrique<br>City: Blieskastel<br>Star: one","Name: Toya Restaurant<br>City: Faulquemont<br>Star: one","Name: La Bonne Auberge<br>City: Stiring-Wendel<br>Star: one","Name: Auberge St. Walfrid<br>City: Sarreguemines-Welferding<br>Star: one","Name: Chez Michèle<br>City: Languimberg<br>Star: one","Name: Château d'Adoménil<br>City: Lunéville<br>Star: one","Name: Aux Ducs de Lorraine<br>City: Épinal<br>Star: one","Name: La Maison Dufossé<br>City: Metz<br>Star: one","Name: Quai des Saveurs<br>City: Hagondange<br>Star: one","Name: Mosconi<br>City: Luxembourg<br>Star: one","Name: La Cristallerie<br>City: Luxembourg<br>Star: one","Name: Ma langue sourit<br>City: Oetrange (Contern)<br>Star: two","Name: Lea Linster<br>City: Frisange<br>Star: one","Name: Waldhotel Sonora<br>City: Dreis<br>Star: three","Name: schanz. restaurant<br>City: Piesport<br>Star: two","Name: Wein- und Tafelhaus<br>City: Trittenheim<br>Star: one","Name: Rüssel's Landhaus St. Urban<br>City: Naurath (Wald)<br>Star: one","Name: Le temple<br>City: Neuhütten<br>Star: one","Name: BECKER'S<br>City: Trier-Olewig<br>Star: two","Name: Jungborn<br>City: Bad Sobernheim<br>Star: one","Name: Alte Pfarrey<br>City: Neuleiningen<br>Star: one","Name: Urgestein<br>City: Neustadt an der Weinstraße<br>Star: one","Name: L.A. Jordan<br>City: Deidesheim<br>Star: one","Name: The IZAKAYA<br>City: Wachenheim an der Weinstrasse<br>Star: one","Name: Kaupers Restaurant am Kapellenhof<br>City: Selzen<br>Star: one","Name: Gourmetrestaurant Dirk Maus<br>City: Heidesheim an Rhein<br>Star: one","Name: Restaurant Krone<br>City: Herxheim-Hayna<br>Star: one","Name: Steinheuers Restaurant zur Alten Post<br>City: Bad Neuenahr-Ahrweiler<br>Star: two","Name: Brogsitter Sanct Peter<br>City: Bad Neuenahr-Ahrweiler<br>Star: one","Name: L'Essentiel<br>City: Temploux (Namur)<br>Star: one","Name: L'Eau vive<br>City: Rivière (Profondeville)<br>Star: two","Name: L'Air du Temps<br>City: Liernu (Eghezée)<br>Star: two","Name: Aux petits oignons<br>City: Jodoigne<br>Star: one","Name: Arabelle Meirlaen<br>City: Marchin<br>Star: one","Name: Hostellerie Gilain<br>City: Liroux (Dinant)<br>Star: one","Name: Le Coq aux Champs<br>City: Soheit-Tinlot (Tinlot)<br>Star: one","Name: Maison Marit<br>City: Braine l'Alleud<br>Star: one","Name: Pouic-Pouic<br>City: Chapelle-lez-Herlaimont<br>Star: one","Name: Philippe Meyers<br>City: Braine l'Alleud<br>Star: one","Name: Le Cor de Chasse<br>City: Wéris (Durbuy)<br>Star: one","Name: Héliport Brasserie<br>City: Liège<br>Star: one","Name: Les Pieds dans le Plat<br>City: Marenne (Hotton)<br>Star: one","Name: Le Château de Strainchamps<br>City: Strainchamps (Fauvillers)<br>Star: one","Name: La Table de Maxime<br>City: Our (Paliseul)<br>Star: two","Name: Le Gastronome<br>City: Noirefontaine (Bouillon)<br>Star: one","Name: Hotel zur Post<br>City: Sankt Vith<br>Star: one","Name: Hostellerie Le Prieuré Saint Géry<br>City: Solre-Saint-Géry (Beaumont)<br>Star: one","Name: Les Gourmands<br>City: Blaregnies (Quévy)<br>Star: one","Name: D'Eugénie à Emilie<br>City: Baudour (Saint-Ghislain)<br>Star: two","Name: Auberge de la Grappe d'Or<br>City: Torgny<br>Star: one","Name: Château du Mylord<br>City: Ellezelles<br>Star: two","Name: Clairefontaine<br>City: Luxembourg<br>Star: one","Name: La Distellerie<br>City: Bourglinster (Junglinster)<br>Star: one","Name: L'impératif<br>City: Roucourt (Péruwelz)<br>Star: one","Name: Au gré du vent<br>City: Seneffe<br>Star: one","Name: La menuiserie<br>City: Champagne (Waimes)<br>Star: one","Name: Chai Gourmand<br>City: Gembloux<br>Star: one","Name: Transparence La table de Patrick Fréchin<br>City: Nancy<br>Star: one","Name: Die Brasserie<br>City: Pirmasens<br>Star: one","Name: Intense<br>City: Kallstadt<br>Star: one","Name: Schwarz Gourmet<br>City: Kirchheim<br>Star: one","Name: Kucher's Gourmet<br>City: Darscheid<br>Star: one","Name: Da Vinci<br>City: Koblenz<br>Star: one","Name: Schiller`s Restaurant<br>City: Koblenz<br>Star: one","Name: PURS<br>City: Andernach<br>Star: two","Name: YOSO<br>City: Andernach<br>Star: one","Name: Guillou Campagne<br>City: Schouweiler (Dippach)<br>Star: one","Name: Fani<br>City: Roeser<br>Star: one","Name: Bistro Racine<br>City: Braine-le-château<br>Star: one","Name: Le Comptoir de Marie<br>City: Mons<br>Star: one","Name: Philippe Fauchet<br>City: Saint-Georges<br>Star: one","Name: Quadras<br>City: Sankt Vith<br>Star: one","Name: Le Pilori<br>City: Ecaussines-Lalaing<br>Star: one","Name: L'Arnsbourg<br>City: Baerenthal<br>Star: one","Name: Les Jardins d'Anaïs<br>City: Luxembourg<br>Star: one","Name: Landwerk<br>City: Wallerfangen<br>Star: one","Name: Louis Restaurant<br>City: Saarlouis<br>Star: one","Name: Esplanade<br>City: Saarbrücken<br>Star: one","Name: Coquille St. Jacques im Parkrestaurant Nodhausen<br>City: Neuwied<br>Star: one","Name: Admiral<br>City: Kallstadt<br>Star: one","Name: La Plage d'Amée<br>City: Jambes Namur)<br>Star: one","Name: La Ligne Rouge<br>City: Lasne<br>Star: one","Name: Little Paris<br>City: Waterloo<br>Star: one"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-23.634005,63.43626],"lng":[-123.719444,127.10257]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="additional-analysis" class="section level2">
+<h2>Additional analysis</h2>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<div id="limitations" class="section level3">
+<h3><em>Limitations</em></h3>
+<p><br>One limitation for interactive maps part is that the datasets we had for Michelin restaurants contained limited information, which prevented us from being able to include all Michelin restaurants released by Michelin Guide around the world into a more complete geographic distribution map. <a href="https://www.kaggle.com/jackywang529/michelin-restaurants">Michelin Restaurant Ratings Globally</a> only contains restaurants info in following regions: Austria, California, Chicago, Croatia, Czech Republic, Denmark, Finland, Greece, Hong Kong, Hungary, Iceland, Macau, Norway, New York City, Poland, Ireland, Rio de Janeiro, Sao Paulo, South Korea, Singapore, Sweden, Taipei, Thailand, Washington DC, and United Kingdom. <a href="https://data.public.lu/en/datasets/michelin-restaurants-in-2020/">Starred Restaurants of Michelin Guide 2020</a> contains restaurants info in some European countries, such as Germany, but the listing is still not complete. Therefore, after combining both two datasets, we still missed starred restaurants in Michelin popular countries, like Belgium, France, Italy and Japan. Although we tidied 2021 Michelin restaurants datasets by ourselves from Michelin Guide and Wikipedia, we still did not have the location information(i.e. longitude and latitude) of those Michelin restaurants.</p>
+</div>
+<div id="conclusions" class="section level3">
+<h3><em>Conclusions</em></h3>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
