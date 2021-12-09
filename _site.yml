@@ -14,8 +14,6 @@ navbar:
           href: https://zl2974.github.io/risky_coffee/Report.html
     - text: "Map"
       href: map.html
-    - text: 'Data'
-      href: https://www.kaggle.com/jackywang529/michelin-restaurants
     - text: 'About'
       href: Proposal.html
     - text: 'Report'
